@@ -11,7 +11,7 @@ exports.handler = async (event) => {
     };
   }
 
-  const { userEmail, company, product, tone } = JSON.parse(event.body);
+  const { name, purpose, offer, target, painPoint, tone } = JSON.parse(event.body);
 
   const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
@@ -24,7 +24,15 @@ exports.handler = async (event) => {
       messages: [
         {
           role: 'user',
-          content: `Write 3 cold email templates. Sender: ${userEmail}. Target company: ${company}. Product: ${product}. Tone: ${tone}. Keep each email under 150 words.`
+          content: `You are a cold email expert. Write 3 cold email templates for the following situation:
+- Sender name: ${name}
+- Purpose: ${purpose}
+- What they offer: ${offer}
+- Who they are targeting: ${target}
+- Problem they solve: ${painPoint}
+- Tone: ${tone}
+
+Each email should have a subject line, be under 150 words, and feel human. Number them clearly.`
         }
       ]
     })
