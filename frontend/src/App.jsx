@@ -19,14 +19,13 @@ const offerLabels = {
 const tones = ["Professional", "Friendly", "Casual", "Bold"];
 
 function parseEmails(text) {
-  const blocks = text.split(/\*\*Template \d+[^*]*\*\*/g).filter(Boolean);
-  const titles = [...text.matchAll(/\*\*Template \d+[^*]*\*\*/g)].map(
-    (m) => m[0].replace(/\*\*/g, "")
-  );
-  return blocks.map((body, i) => ({
-    title: titles[i] || `Email ${i + 1}`,
-    body: body.trim(),
-  }));
+  const parts = text.split(/(?=\*\*Template \d+)/);
+  return parts
+    .filter(p => p.trim())
+    .map((block, i) => ({
+      title: `Email ${i + 1}`,
+      body: block.replace(/\*\*Template \d+[^*]*\*\*/, "").trim(),
+    }));
 }
 
 function EmailCard({ title, body, index }) {
