@@ -80,7 +80,9 @@ export default function App() {
         method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form),
       });
       const data = await res.json();
-      setEmails(parseEmails(data.email));
+console.log("RAW:", data.email);
+console.log("PARSED:", parseEmails(data.email));
+setEmails(parseEmails(data.email));
     } catch { setError("Something went wrong. Please try again."); }
     setLoading(false);
   };
