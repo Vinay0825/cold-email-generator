@@ -13,13 +13,13 @@ const offerLabels = {
 const tones = ["Professional", "Friendly", "Casual", "Bold"];
 
 function parseEmails(text) {
-  const parts = text.split(/(?=^\d+\.)/m);
+  const parts = text.split(/\n(?=\d+\.)/);
   return parts
     .filter(p => p.trim().length > 20)
     .slice(0, 3)
     .map((body, i) => ({
       title: `Email ${i + 1}`,
-      body: body.replace(/^\d+\./, "").trim(),
+      body: body.replace(/^\d+\.\s*/, "").trim(),
     }));
 }
 
