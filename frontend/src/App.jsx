@@ -13,24 +13,14 @@ const offerLabels = {
 const tones = ["Professional", "Friendly", "Casual", "Bold"];
 
 function parseEmails(text) {
-  const lines = text.split("\n");
-  const emails = [];
-  let current = [];
-
-  for (const line of lines) {
-    if (/template\s*\d+/i.test(line) && current.length > 0) {
-      emails.push(current.join("\n").trim());
-      current = [];
-    } else {
-      current.push(line);
-    }
-  }
-  if (current.length > 0) emails.push(current.join("\n").trim());
-
-  return emails
-    .filter(e => e.length > 20)
+  const parts = text.split(/(?=^\d+\.)/m);
+  return parts
+    .filter(p => p.trim().length > 20)
     .slice(0, 3)
-    .map((body, i) => ({ title: `Email ${i + 1}`, body }));
+    .map((body, i) => ({
+      title: `Email ${i + 1}`,
+      body: body.replace(/^\d+\./, "").trim(),
+    }));
 }
 
 const cardStyles = [
